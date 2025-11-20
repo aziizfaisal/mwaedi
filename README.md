@@ -17,39 +17,36 @@ tr:nth-child(even){ background:#1a1a1a; }
 <table id="dashboard">
 <thead>
 <tr>
-<th>الاسم</th>
-<th>رقم الجوال</th>
-<th>الخدمة</th>
-<th>التاريخ</th>
-<th>الوقت</th>
+<th>الاسم</th><th>رقم الجوال</th><th>الخدمة</th><th>التاريخ</th><th>الوقت</th>
 </tr>
 </thead>
 <tbody></tbody>
 </table>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-<script>
-// Firebase Config نفسه
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+// Firebase config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyA1pDgSGAMKdceGERXgIU9TQ9AN6iTmquM",
+  authDomain: "salonbookingdashboard.firebaseapp.com",
+  databaseURL: "https://salonbookingdashboard-default-rtdb.firebaseio.com/",
+  projectId: "salonbookingdashboard",
+  storageBucket: "salonbookingdashboard.appspot.com",
+  messagingSenderId: "38824070536",
+  appId: "1:38824070536:web:f01a0987a826f836a73e3d"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
-const tbody = document.querySelector("#dashboard tbody");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const dashboardRef = ref(db, 'bookings');
 
-// تحديث لحظي
-db.ref("bookings").on("child_added", snapshot => {
-    const booking = snapshot.val();
+onChildAdded(dashboardRef, (snapshot) => {
+    const b = snapshot.val();
+    const tbody = document.querySelector("#dashboard tbody");
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${booking.name}</td><td>${booking.phone}</td><td>${booking.service}</td><td>${booking.date}</td><td>${booking.time}</td>`;
+    tr.innerHTML = `<td>${b.name}</td><td>${b.phone}</td><td>${b.service}</td><td>${b.date}</td><td>${b.time}</td>`;
     tbody.appendChild(tr);
 });
 </script>
