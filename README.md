@@ -2,6 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard الحجوزات</title>
 <style>
 body { font-family: Arial; background:#111; color:#fff; margin:0; padding:20px; }
@@ -27,7 +28,6 @@ tr:nth-child(even){ background:#1a1a1a; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyA1pDgSGAMKdceGERXgIU9TQ9AN6iTmquM",
   authDomain: "salonbookingdashboard.firebaseapp.com",
@@ -35,18 +35,26 @@ const firebaseConfig = {
   projectId: "salonbookingdashboard",
   storageBucket: "salonbookingdashboard.appspot.com",
   messagingSenderId: "38824070536",
-  appId: "1:38824070536:web:f01a0987a826f836a73e3d"
+  appId: "1:38824070536:web:fff486776f347333a73e3d",
+  measurementId: "G-DL5C15WYEW"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
 const dashboardRef = ref(db, 'bookings');
 
 onChildAdded(dashboardRef, (snapshot) => {
     const b = snapshot.val();
     const tbody = document.querySelector("#dashboard tbody");
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${b.name}</td><td>${b.phone}</td><td>${b.service}</td><td>${b.date}</td><td>${b.time}</td>`;
+    tr.innerHTML = `
+        <td>${b.name}</td>
+        <td>${b.phone}</td>
+        <td>${b.service}</td>
+        <td>${b.date}</td>
+        <td>${b.time}</td>
+    `;
     tbody.appendChild(tr);
 });
 </script>
